@@ -9,6 +9,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.android.goodplays_app.ModelClasses.SongModelClasses.Track;
+import com.example.android.goodplays_app.ModelClasses.Track1;
+
+import java.util.ArrayList;
+
 /**
  * Created by hp on 11-06-2018.
  */
@@ -44,7 +49,7 @@ public class FavouriteSongs extends SQLiteOpenHelper {
     }
 
     public FavouriteSongs(Context cmp) {
-        super(cmp, DATABASE_NAME, null, VERSION);
+        super(cmp, DATABASE_NAME, null, VERSION);//A comment is added
     }
 
     @Override
@@ -58,48 +63,65 @@ public class FavouriteSongs extends SQLiteOpenHelper {
         this.onCreate(sqLiteDatabase);
     }
 
-    /*public void insert(Team1 tm) {
+    public void insert(Track1 track) {
+        String trackName = track.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().getMusicGenreName();
         ContentValues cv = new ContentValues();
-        cv.put(TITLE, tm.getTeam_id1());
-        cv.put(ARTIST, tm.getTeam_name1());
-        cv.put(GENRE, tm.getImage_url1());
-        cv.put(ALBUM, tm.getTeam_id2());
-        cv.put(YEAR, tm.getTeam_name2());
-        cv.put(STARS, tm.getImage_url2());
+        cv.put(TITLE, track.getTrackName());
+        cv.put(ARTIST, track.getArtistName());
+        cv.put(GENRE, trackName);
+        cv.put(ALBUM, track.getAlbumName());
+        cv.put(YEAR, track.getFirstReleaseDate());
+        cv.put(STARS, track.getStars());
         sdW.insert(TABLE_NAME, null, cv);
     }
 
-    *//*public void delete(int id1, int id2) {
-        sdW.delete(TABLE_NAME, "" + TEAM_ID1 + "=? and " + TEAM_ID2 + "=?", new String[]{String.valueOf(id1), String.valueOf(id2)});
-    }*//*
+    public void delete(String nameOfSong) {
+        sdW.delete(TABLE_NAME, "" + TITLE + "=?", new String[]{nameOfSong});
+    }
 
-    public void update(int id1, int id2, Team1 tm) {
+    public void update(Track1 track) {
+        String trackName = track.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().getMusicGenreName();
         ContentValues cv = new ContentValues();
-        cv.put(TITLE, tm.getTeam_id1());
-        cv.put(ARTIST, tm.getTeam_name1());
-        cv.put(GENRE, tm.getImage_url1());
-        cv.put(ALBUM, tm.getTeam_id2());
-        cv.put(YEAR, tm.getTeam_name2());
-        cv.put(STARS, tm.getImage_url2());
+        cv.put(TITLE, track.getTrackName());
+        cv.put(ARTIST, track.getArtistName());
+        cv.put(GENRE, trackName);
+        cv.put(ALBUM, track.getAlbumName());
+        cv.put(YEAR, track.getFirstReleaseDate());
+        cv.put(STARS, track.getStars());
         sdW.insert(TABLE_NAME, null, cv);
     }
 
-    public Team1 read(String songName) {
+    public Track1 read(String songName) {
         sdR = getReadableDatabase();
-        //Team1 t = new Team1();
+        Track1 t = new Track1();
         Cursor c = sdR.query(TABLE_NAME, null, "" + TITLE + "=? ", new String[]{songName}, null, null, null);
         if (c != null) {
             c.moveToNext();
-            t.setTeam_id1(c.getInt(0));
-            t.setTeam_name1(c.getString(1));
-            t.setImage_url1(c.getBlob(2));
-            t.setTeam_id2(c.getInt(3));
-            t.setTeam_name2(c.getString(4));
-            t.setImage_url2(c.getBlob(5));
-            t.setVenue(c.getString(6));
-            t.setTime(c.getString(7));
+            t.setTrackName(c.getString(0));
+            t.setArtistName(c.getString(1));
+            t.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().setMusicGenreName(c.getString(2));
+            t.setAlbumName(c.getString(3));
+            t.setFirstReleaseDate(c.getString(4));
+            t.setStars(c.getFloat(5));
         }
         return t;
-    }*/
+    }
+    public ArrayList<Track1> readAll() {
+        sdR = getReadableDatabase();
+        ArrayList<Track1> list = new ArrayList<>();
+        Cursor c = sdR.query(TABLE_NAME, null, null, null, null, null, null);
+        while (c.moveToNext()) {
+            Track1 t = new Track1();
+            t.setTrackName(c.getString(0));
+            t.setArtistName(c.getString(1));
+            t.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().setMusicGenreName(c.getString(2));
+            t.setAlbumName(c.getString(3));
+            t.setFirstReleaseDate(c.getString(4));
+            t.setStars(c.getFloat(5));
+            list.add(t);
+            c.moveToNext();
+        }
+        return list;
+    }
 }
 
