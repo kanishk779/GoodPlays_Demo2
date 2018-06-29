@@ -4,7 +4,9 @@ package com.example.android.goodplays_app.ModelClasses.SongModelClasses; ;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MusicGenre {
+import java.io.Serializable;
+
+public class MusicGenre implements Serializable{
 
     @SerializedName("music_genre_id")
     @Expose

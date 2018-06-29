@@ -70,6 +70,10 @@ public class ArtistDataAdapter extends RecyclerView.Adapter<ArtistDataAdapter.My
 
     @Override
     public int getItemCount() {
-        return Artistlist.size();
+        if(Artistlist!=null)
+        {
+            return Artistlist.size();
+        }
+        return 0;
     }
 }

@@ -24,7 +24,7 @@ public class FavouriteDataAdapter extends RecyclerView.Adapter<FavouriteDataAdap
     MyInterface2 mListener2;
 
     public interface MyInterface2{
-        public void onItemClick2(int position);
+        public void onItemClick2(View view);                     //YOU CAN ALSO PASS POSITION
     }
     public void setListener(MyInterface2 Listener){
         mListener2 = Listener;
@@ -34,7 +34,7 @@ public class FavouriteDataAdapter extends RecyclerView.Adapter<FavouriteDataAdap
     }
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView Title,Artist;
-        public MyViewHolder(View view){
+        public MyViewHolder(final View view){
             super(view);
             Title = view.findViewById(R.id.favourite_song_title);
             Artist = view.findViewById(R.id.favourite_song_artist);
@@ -44,7 +44,7 @@ public class FavouriteDataAdapter extends RecyclerView.Adapter<FavouriteDataAdap
                     if(mListener2!=null){
                         int position =getAdapterPosition();
                         if(position!=RecyclerView.NO_POSITION){
-                            mListener2.onItemClick2(position);
+                            mListener2.onItemClick2(view);            //YOU CAN ALSO PASS POSITION
                         }
                     }
                 }

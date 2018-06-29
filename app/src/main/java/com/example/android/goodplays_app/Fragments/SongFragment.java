@@ -1,6 +1,7 @@
 package com.example.android.goodplays_app.Fragments;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.example.android.goodplays_app.Adapters.SongDataAdapter;
+import com.example.android.goodplays_app.MainActivity;
 import com.example.android.goodplays_app.ModelClasses.SongModelClasses.SongDetail;
 import com.example.android.goodplays_app.ModelClasses.SongModelClasses.Track;
 import com.example.android.goodplays_app.ModelClasses.SongModelClasses.TrackList;
@@ -30,9 +32,11 @@ import com.example.android.goodplays_app.R;
 import com.example.android.goodplays_app.RequestInterfaceRetrofit;
 import com.example.android.goodplays_app.SeeSongDetailsActivity;
 import com.example.android.goodplays_app.SetFavouriteSongActivity;
+import com.example.android.goodplays_app.SplashFile;
 import com.example.android.goodplays_app.VolleyActivity;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -58,10 +62,20 @@ public class SongFragment extends Fragment implements SongDataAdapter.MyInterfac
     private ArrayList<Track> data;
     private SongDataAdapter adapter;
     Gson g = new Gson();
+    ProgressDialog pd;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_top_song,container);
+        View v = inflater.inflate(R.layout.fragment_top_song,container,false);
+        //Toast.makeText(getContext(), "PD is Culprit", Toast.LENGTH_SHORT).show();
+        pd = new ProgressDialog(getContext());
+        try{
+            data = (ArrayList<Track>) getArguments().getSerializable("listtracks");
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
         Log.e("IN","Song FragmentOnCREATE");
         return v;
     }
@@ -72,8 +86,12 @@ public class SongFragment extends Fragment implements SongDataAdapter.MyInterfac
         recyclerView = view.findViewById(R.id.recycler_view_songs);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        adapter = new SongDataAdapter(data);
+        recyclerView.setAdapter(adapter);
+        adapter.setListener(SongFragment.this);
         //loadJSON();
         //getDataFromServer(URL1);
+        //getDataFromServer1(URL1);
     }
     /*private void loadJSON(){
         Retrofit retrofit = new Retrofit.Builder()
@@ -138,9 +156,52 @@ public class SongFragment extends Fragment implements SongDataAdapter.MyInterfac
         });
         Volley.newRequestQueue(getContext()).add(sr);
     }
+    private void getDataFromServer1(String url)
+    {
+        pd.show();
+        StringRequest sr = new StringRequest(Request.Method.GET, URL1, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                pd.dismiss();
+                //Toast.makeText(SplashFile.this, response, Toast.LENGTH_SHORT).show();
+                try {
+                    Gson g = new Gson();
+                    JSONObject jo1 = new JSONObject(response);
+                    JSONObject jo2 = jo1.getJSONObject("message");
+                    JSONObject jo3 = jo2.getJSONObject("body");
+                    JSONArray ja1 = jo3.getJSONArray("track_list");
+                    for (int i = 0; i < ja1.length(); i++) {
+                        JSONObject joo = ja1.getJSONObject(i);
+                        JSONObject joo1 = joo.getJSONObject("track");
+                        Track tc = g.fromJson(joo1.toString(), Track.class);
+                        data.add(tc);
+                    }
+                    adapter = new SongDataAdapter(data);
+                    recyclerView.setAdapter(adapter);
+
+                    adapter.setListener(SongFragment.this);
+                    Toast.makeText(getContext(), "CULprit is CONTEXT", Toast.LENGTH_LONG).show();
+                    /*Intent in = new Intent(SplashFile.this, MainActivity.class);
+                    in.putExtra("listtracks", );
+                    //Toast.makeText(SplashFile.this, ""+listTrack.get(0), Toast.LENGTH_SHORT).show();
+                    startActivity(in);*/
+
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Deep" + e, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pd.dismiss();
+                Toast.makeText(getContext(), "" + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+        Volley.newRequestQueue(getContext()).add(sr);
+    }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(final int position) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setMessage("Choose what u want to do ?");
         dialog.setTitle("Welcome user!");
@@ -149,6 +210,8 @@ public class SongFragment extends Fragment implements SongDataAdapter.MyInterfac
             public void onClick(DialogInterface dialog, int which) {
                 Intent i  =new Intent(getContext(), SeeSongDetailsActivity.class);
                 //WRITE CODE FOR PASSING THE DATA OF PARTICULAR SONG TO THE ACTIVITY SONGDETAIL
+                i.putExtra("track",data.get(position));
+                startActivity(i);
             }
         });
         dialog.setPositiveButton("Save As Favourite", new DialogInterface.OnClickListener() {
@@ -156,6 +219,13 @@ public class SongFragment extends Fragment implements SongDataAdapter.MyInterfac
             public void onClick(DialogInterface dialog, int which) {
                 Intent i =new Intent(getContext(), SetFavouriteSongActivity.class);
                 //WRITE CODE FOR PASSING THE DATA OF PARTICULAR SONG TO THE ACTIVITY SONGDETAIL
+
+
+
+
+                //WHY THIS IS NOT WORKING
+                i.putExtra("track",data.get(position));
+                startActivity(i);
             }
         });
         dialog.show();

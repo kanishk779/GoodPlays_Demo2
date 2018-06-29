@@ -11,6 +11,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/artistname"
             android:text="hello"
             android:textSize="48sp"
             android:gravity="center"/>
@@ -24,7 +25,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Age"
+            android:id="@+id/artistcountry"
+            android:text="Country"
             android:layout_weight="1"
             android:textSize="32sp"/>
         <TextView
@@ -44,6 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/artistrating"
             android:text="Rating"
             android:layout_weight="1"
             android:textSize="32sp"/>
@@ -64,6 +67,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/artistgenre"
             android:text="Genre"
             android:layout_weight="1"
             android:textSize="32sp"/>

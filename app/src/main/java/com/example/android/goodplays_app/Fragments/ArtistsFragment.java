@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.android.goodplays_app.Adapters.ArtistDataAdapter;
 import com.example.android.goodplays_app.Adapters.SongDataAdapter;
@@ -45,14 +46,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ArtistsFragment extends Fragment implements ArtistDataAdapter.MyInterface1{
     private static  final String API_KEY="13c8bfd76a0c573ff72cb0be3f1201b9";
     private static final String BASE_URL="http://api.musixmatch.com/ws/1.1/";
+    private static final String URL2 = BASE_URL+"chart.artists.get?page=1&page_size=3&country=in&apikey="+API_KEY;
     private RecyclerView recyclerView;
-    private ArrayList<Track> data;
+    private ArrayList<Artist> data;
     private ArtistDataAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_top_artists,container);
+        View v = inflater.inflate(R.layout.fragment_top_artists,container,false);
+        try{
+            data = (ArrayList<Artist>) getArguments().getSerializable("listartist");
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
         Log.e("IN","ArtisFragmentOnCREATE");
         return v;
     }
@@ -63,6 +72,9 @@ public class ArtistsFragment extends Fragment implements ArtistDataAdapter.MyInt
         recyclerView = view.findViewById(R.id.recycler_view_artists);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        adapter = new ArtistDataAdapter(data);
+        recyclerView.setAdapter(adapter);
+        adapter.setListener(ArtistsFragment.this);
         //loadJSON();
     }
     private void loadJSON(){
@@ -97,7 +109,7 @@ public class ArtistsFragment extends Fragment implements ArtistDataAdapter.MyInt
         });
     }
     @Override
-    public void onItemClick1(int position) {
+    public void onItemClick1(final int position) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setMessage("Choose what u want to do ?");
         dialog.setTitle("Welcome user!");
@@ -106,6 +118,8 @@ public class ArtistsFragment extends Fragment implements ArtistDataAdapter.MyInt
             public void onClick(DialogInterface dialog, int which) {
                 Intent i  =new Intent(getContext(), SeeArtistDetailsActivity.class);
                 //WRITE CODE FOR PASSING THE DATA OF PARTICULAR Artist TO THE ACTIVITY ARRTISTDETAIL
+                i.putExtra("artist",data.get(position));
+                startActivity(i);
             }
         });
         dialog.show();

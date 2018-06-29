@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.android.goodplays_app.Adapters.FavouriteDataAdapter;
 import com.example.android.goodplays_app.Adapters.SongDataAdapter;
@@ -47,7 +48,7 @@ public class FavouriteFragment extends Fragment implements FavouriteDataAdapter.
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_favourite,container);
+        View v = inflater.inflate(R.layout.fragment_favourite,container,false);
         Log.e("IN","Favourite FragmentOnCREATE");
         return v;
     }
@@ -59,7 +60,7 @@ public class FavouriteFragment extends Fragment implements FavouriteDataAdapter.
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         db = new FavouriteSongs(getContext());
-        /*try{
+        try{
             db.openRead();
             data = db.readAll();
             db.closeRead();
@@ -68,12 +69,18 @@ public class FavouriteFragment extends Fragment implements FavouriteDataAdapter.
             Log.e("error",e.toString());
         }
         adapter = new FavouriteDataAdapter(data);
-        recyclerView.setAdapter(adapter);*/
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void onItemClick2(int position) {
+    public void onItemClick2(View view) {
         Intent i = new Intent(getContext(), SeeFavouriteSongActivity.class);
         //SEND THE DATA TO THE SONG SAVED BY USER AS FAVOURITE FROM DATABASE
+        TextView songTitle = view.findViewById(R.id.favourite_song_title);
+        db.openRead();
+        Track1 track = db.read(songTitle.getText().toString().trim());
+        db.closeRead();
+        i.putExtra("favouriteSong",track);
+        startActivity(i);
     }
 }

@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,25 +19,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.goodplays_app.Fragments.ArtistsFragment;
 import com.example.android.goodplays_app.Fragments.FavouriteFragment;
 import com.example.android.goodplays_app.Fragments.SongFragment;
+import com.example.android.goodplays_app.ModelClasses.ArtistModelClasses.Artist;
+import com.example.android.goodplays_app.ModelClasses.SongModelClasses.Track;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+    ArrayList<Track> list;
+    ArrayList<Artist> ArtistList;
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    Bundle bSong,bArtist;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -47,7 +46,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        try{
+            list=(ArrayList<Track>)getIntent().getExtras().getSerializable("listtracks");
+        }
+        catch (Exception e){
+            Log.e("error",e.toString());
+        }
+        try{
+            ArtistList = (ArrayList<Artist>)getIntent().getExtras().getSerializable("listartist");
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+        }
+        bSong = new Bundle();
+        bSong.putSerializable("listtracks",list);
+        bArtist = new Bundle();
+        bArtist.putSerializable("listartist",ArtistList);
+        Toast.makeText(this, ""+ArtistList, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, ""+list, Toast.LENGTH_SHORT).show();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -137,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -152,13 +168,18 @@ public class MainActivity extends AppCompatActivity {
             switch (position)
             {
                 case 0:
-                    return new SongFragment();
+                    SongFragment sf = new SongFragment();
+                    sf.setArguments(bSong);
+                    return sf;
                 case 1:
-                    return new ArtistsFragment();
+                    ArtistsFragment af = new ArtistsFragment();
+                    af.setArguments(bArtist);
+                    return af;
                 case 2:
                     return new FavouriteFragment();
+                default:
+                    return new SongFragment();
             }
-            return new SongFragment();
         }
 
         @Override

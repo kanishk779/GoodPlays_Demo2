@@ -4,13 +4,14 @@ import com.example.android.goodplays_app.ModelClasses.SongModelClasses.PrimaryGe
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by hp on 26-06-2018.
  */
 
-public class Track1 {
+public class Track1 implements Serializable{
     @SerializedName("primary_genres")         //WE WANT THIS!!!!
     @Expose
     private PrimaryGenres primaryGenres;

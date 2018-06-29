@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/songtitle"
         android:layout_weight="1"
-        android:text="hello"
+        android:text="Title"
         android:textSize="24sp"
         android:gravity="center"/>
     <TextView
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/songartist"
         android:layout_weight="1"
-        android:text="hello"
+        android:text="Artist"
         android:textSize="24sp"
         android:gravity="center"/>
     <TextView
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/genre"
         android:layout_weight="1"
-        android:text="hello"
+        android:text="Genre"
         android:textSize="24sp"
         android:gravity="center"/>
     <LinearLayout
@@ -52,15 +52,16 @@
             android:id="@+id/album"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:text="hello"
+            android:text="Album"
             android:textSize="24sp"
             android:gravity="center"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/releasedetails"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:text="hello"
+            android:text="ReleaseYear"
             android:textSize="24sp"
             android:gravity="center"/>
     </LinearLayout>
@@ -69,5 +70,6 @@
         android:layout_height="10dp"
         android:layout_weight="1"
         android:layout_marginLeft="130dp"
+        android:id="@+id/getLyrics"
         android:text="lyrics" />
 </LinearLayout>

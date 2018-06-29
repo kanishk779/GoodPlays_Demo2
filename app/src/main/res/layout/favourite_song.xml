@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/songtitle"
+        android:id="@+id/songtitlefavourite"
         android:layout_weight="1"
         android:text="SongTitle"
         android:textSize="24sp"
@@ -18,7 +18,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/songartist"
+        android:id="@+id/songartistfavourite"
         android:layout_weight="1"
         android:text="SongArtist"
         android:textSize="24sp"
@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/genre"
+        android:id="@+id/genrefavourite"
         android:layout_weight="1"
         android:text="Genre"
         android:textSize="24sp"
@@ -39,7 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/album"
+            android:id="@+id/albumfavourite"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="album"
@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/year_of_release"
+            android:id="@+id/year_of_releasefavourite"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:text="Year of Release"
@@ -56,10 +56,11 @@
             android:gravity="center"/>
     </LinearLayout>
     <RatingBar
-        android:id="@+id/rating"
+        android:id="@+id/ratingfavourite"
         android:layout_width="wrap_content"
         android:layout_height="10dp"
         android:layout_weight="1"
+        android:rating="0.0"
         android:layout_marginLeft="50dp" />
     <Button
         android:layout_width="wrap_content"

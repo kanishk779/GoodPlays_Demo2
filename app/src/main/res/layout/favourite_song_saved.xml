@@ -60,6 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="10dp"
         android:layout_weight="1"
-        android:layout_marginLeft="50dp"
-        android:text="ratingGiven" />
+        android:layout_gravity="center_horizontal"
+        android:text="ratingGiven"
+        android:textSize="35sp"/>
 </LinearLayout>

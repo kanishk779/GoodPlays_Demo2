@@ -1,11 +1,12 @@
 
 package com.example.android.goodplays_app.ModelClasses.LyricsModelClasses; ;
 
+import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Lyrics {
+public class Lyrics implements Serializable {
 
     @SerializedName("lyrics_id")      //WE WANT THIS!!!!
     @Expose

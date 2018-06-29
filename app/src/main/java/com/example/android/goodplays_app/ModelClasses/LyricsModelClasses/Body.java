@@ -4,7 +4,9 @@ package com.example.android.goodplays_app.ModelClasses.LyricsModelClasses; ;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Body {
+import java.io.Serializable;
+
+public class Body implements Serializable {
 
     @SerializedName("lyrics")
     @Expose
