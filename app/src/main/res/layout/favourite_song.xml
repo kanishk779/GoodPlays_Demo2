@@ -23,14 +23,14 @@
         android:text="SongArtist"
         android:textSize="24sp"
         android:gravity="center"/>
-    <TextView
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/genrefavourite"
         android:layout_weight="1"
         android:text="Genre"
         android:textSize="24sp"
-        android:gravity="center"/>
+        android:gravity="center"/>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,9 +58,10 @@
     <RatingBar
         android:id="@+id/ratingfavourite"
         android:layout_width="wrap_content"
-        android:layout_height="10dp"
-        android:layout_weight="1"
+        android:layout_height="80dp"
+        android:padding="5dp"
         android:rating="0.0"
+        android:layout_gravity="center_vertical"
         android:layout_marginLeft="50dp" />
     <Button
         android:layout_width="wrap_content"

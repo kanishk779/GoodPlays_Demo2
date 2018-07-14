@@ -24,7 +24,7 @@ public class FavouriteDataAdapter extends RecyclerView.Adapter<FavouriteDataAdap
     MyInterface2 mListener2;
 
     public interface MyInterface2{
-        public void onItemClick2(View view);                     //YOU CAN ALSO PASS POSITION
+        public void onItemClick2(int position);                     //YOU CAN ALSO PASS POSITION
     }
     public void setListener(MyInterface2 Listener){
         mListener2 = Listener;
@@ -44,7 +44,7 @@ public class FavouriteDataAdapter extends RecyclerView.Adapter<FavouriteDataAdap
                     if(mListener2!=null){
                         int position =getAdapterPosition();
                         if(position!=RecyclerView.NO_POSITION){
-                            mListener2.onItemClick2(view);            //YOU CAN ALSO PASS POSITION
+                            mListener2.onItemClick2(position);            //YOU CAN ALSO PASS POSITION
                         }
                     }
                 }

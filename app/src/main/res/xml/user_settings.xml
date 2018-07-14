@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="Select">
+    <EditTextPreference
+        android:defaultValue="1"
+        android:inputType="numberDecimal"
+        android:key="no_of_pages"
+        android:selectAllOnFocus="true"
+        android:title="Select_no_of_pages"/>
+    <EditTextPreference
+        android:defaultValue="10"
+        android:inputType="numberDecimal"
+        android:key="songs_on_each_page"
+        android:selectAllOnFocus="true"
+        android:title="Select_no_of_songs_on_each_page"/>
+    <ListPreference
+        android:defaultValue="in"
+        android:key="country"
+        android:title="Select_country"
+        android:entries="@array/countries_label"
+        android:entryValues="@array/countries_values">
+
+    </ListPreference>
+
+</PreferenceScreen>

@@ -19,17 +19,17 @@ import java.util.ArrayList;
  */
 
 public class FavouriteSongs extends SQLiteOpenHelper {
-    private final static String DATABASE_NAME = "database_favourite";
-    private static final String TABLE_NAME = "bestsongs";
-    private static final String TITLE = "title";
-    private static final String ARTIST = "artist";
-    private static final String GENRE = "genre";
-    private static final String ALBUM = "album";
-    private static final String YEAR = "year";
-    private static final String STARS = "stars";
-    private final static int VERSION = 1;
+        private final static String DATABASE_NAME = "database_favourite";
+        private static final String TABLE_NAME = "bestsongs";
+        private static final String TITLE = "title";
+        private static final String ARTIST = "artist";
+        private static final String GENRE = "genre";
+        private static final String ALBUM = "album";
+        private static final String YEAR = "year";
+        private static final String STARS = "stars";
+        private final static int VERSION = 1;
     SQLiteDatabase sdW, sdR;
-    private static final String CREATE_TABLE = "create table " + TABLE_NAME + " (" + TITLE + " varchar(20) ," + ARTIST + " varchar(20)," + GENRE + " varchar(20)," +
+    private static final String CREATE_TABLE = "create table " + TABLE_NAME + " (" + TITLE + " varchar(20) ," + ARTIST + " varchar(20)," +
             "" + ALBUM + " varchar(20) ," + YEAR + " varchar(20)," + STARS + " int);";
 
     public void openWrite() {
@@ -63,28 +63,32 @@ public class FavouriteSongs extends SQLiteOpenHelper {
         this.onCreate(sqLiteDatabase);
     }
 
-    public void insert(Track1 track) {
-        String trackName = track.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().getMusicGenreName();
+    public long insert(Track1 track) {
+        long i;
+        //String trackName = track.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().getMusicGenreName();
         ContentValues cv = new ContentValues();
         cv.put(TITLE, track.getTrackName());
         cv.put(ARTIST, track.getArtistName());
-        cv.put(GENRE, trackName);
+        //cv.put(GENRE, trackName);
         cv.put(ALBUM, track.getAlbumName());
         cv.put(YEAR, track.getFirstReleaseDate());
         cv.put(STARS, track.getStars());
-        sdW.insert(TABLE_NAME, null, cv);
+        i=sdW.insert(TABLE_NAME, null, cv);
+        return i;
     }
 
-    public void delete(String nameOfSong) {
-        sdW.delete(TABLE_NAME, "" + TITLE + "=?", new String[]{nameOfSong});
+    public long delete(String nameOfSong) {
+        long i=0;
+        i = sdW.delete(TABLE_NAME, "" + TITLE + "=?", new String[]{nameOfSong});
+        return i;
     }
 
     public void update(Track1 track) {
-        String trackName = track.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().getMusicGenreName();
+        //String trackName = track.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().getMusicGenreName();
         ContentValues cv = new ContentValues();
         cv.put(TITLE, track.getTrackName());
         cv.put(ARTIST, track.getArtistName());
-        cv.put(GENRE, trackName);
+        //cv.put(GENRE, trackName);
         cv.put(ALBUM, track.getAlbumName());
         cv.put(YEAR, track.getFirstReleaseDate());
         cv.put(STARS, track.getStars());
@@ -99,10 +103,10 @@ public class FavouriteSongs extends SQLiteOpenHelper {
             c.moveToNext();
             t.setTrackName(c.getString(0));
             t.setArtistName(c.getString(1));
-            t.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().setMusicGenreName(c.getString(2));
-            t.setAlbumName(c.getString(3));
-            t.setFirstReleaseDate(c.getString(4));
-            t.setStars(c.getFloat(5));
+            //t.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().setMusicGenreName(c.getString(2));
+            t.setAlbumName(c.getString(2));
+            t.setFirstReleaseDate(c.getString(3));
+            t.setStars(c.getFloat(4));
         }
         return t;
     }
@@ -114,10 +118,10 @@ public class FavouriteSongs extends SQLiteOpenHelper {
             Track1 t = new Track1();
             t.setTrackName(c.getString(0));
             t.setArtistName(c.getString(1));
-            t.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().setMusicGenreName(c.getString(2));
-            t.setAlbumName(c.getString(3));
-            t.setFirstReleaseDate(c.getString(4));
-            t.setStars(c.getFloat(5));
+            //t.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().setMusicGenreName(c.getString(2));
+            t.setAlbumName(c.getString(2));
+            t.setFirstReleaseDate(c.getString(3));
+            t.setStars(c.getFloat(4));
             list.add(t);
             c.moveToNext();
         }

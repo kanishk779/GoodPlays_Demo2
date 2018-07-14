@@ -74,9 +74,10 @@ public class SongFragment extends Fragment implements SongDataAdapter.MyInterfac
         }
         catch(Exception e)
         {
-            Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"IN Song Fragment" + e.toString(), Toast.LENGTH_SHORT).show();
         }
         Log.e("IN","Song FragmentOnCREATE");
+        //getDataFromServer1(URL1);
         return v;
     }
     @Override
@@ -89,11 +90,36 @@ public class SongFragment extends Fragment implements SongDataAdapter.MyInterfac
         adapter = new SongDataAdapter(data);
         recyclerView.setAdapter(adapter);
         adapter.setListener(SongFragment.this);
-        //loadJSON();
-        //getDataFromServer(URL1);
-        //getDataFromServer1(URL1);
     }
-    /*private void loadJSON(){
+    @Override
+    public void onItemClick(final int position) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setMessage("Choose what u want to do ?");
+        dialog.setTitle("Welcome user!");
+        dialog.setNeutralButton("See Details", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i  =new Intent(getContext(), SeeSongDetailsActivity.class);
+                //WRITE CODE FOR PASSING THE DATA OF PARTICULAR SONG TO THE ACTIVITY SONGDETAIL
+                i.putExtra("track",data.get(position));
+                startActivity(i);
+            }
+        });
+        dialog.setPositiveButton("Save As Favourite", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent j =new Intent(getContext(), SetFavouriteSongActivity.class);
+                //WRITE CODE FOR PASSING THE DATA OF PARTICULAR SONG TO THE ACTIVITY SONGDETAIL
+                j.putExtra("track",data.get(position));
+                startActivity(j);
+            }
+        });
+        dialog.show();
+    }
+}
+
+
+/*private void loadJSON(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -124,7 +150,52 @@ public class SongFragment extends Fragment implements SongDataAdapter.MyInterfac
             }
         });
     }*/
-    private void getDataFromServer(String url) {
+
+
+
+
+/*private void getDataFromServer1(String url)
+    {
+        pd.show();
+        StringRequest sr = new StringRequest(Request.Method.GET, URL1, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                pd.dismiss();
+                //Toast.makeText(SplashFile.this, response, Toast.LENGTH_SHORT).show();
+                try {
+                    Gson g = new Gson();
+                    JSONObject jo1 = new JSONObject(response);
+                    JSONObject jo2 = jo1.getJSONObject("message");
+                    JSONObject jo3 = jo2.getJSONObject("body");
+                    JSONArray ja1 = jo3.getJSONArray("track_list");
+                    for (int i = 0; i < ja1.length(); i++) {
+                        JSONObject joo = ja1.getJSONObject(i);
+                        JSONObject joo1 = joo.getJSONObject("track");
+                        Track tc = g.fromJson(joo1.toString(), Track.class);
+                        data.add(tc);
+                    }
+                    adapter = new SongDataAdapter(data);
+                    recyclerView.setAdapter(adapter);
+
+                    adapter.setListener(SongFragment.this);
+                    Toast.makeText(getContext(), "CULprit is CONTEXT", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Deep" + e, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pd.dismiss();
+                Toast.makeText(getContext(), "" + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+        Volley.newRequestQueue(getContext()).add(sr);
+    }*/
+
+
+
+/*private void getDataFromServer(String url) {
 
         StringRequest sr = new StringRequest(Request.Method.GET, url, new com.android.volley.Response.Listener<String>() {
             @Override
@@ -155,79 +226,4 @@ public class SongFragment extends Fragment implements SongDataAdapter.MyInterfac
             }
         });
         Volley.newRequestQueue(getContext()).add(sr);
-    }
-    private void getDataFromServer1(String url)
-    {
-        pd.show();
-        StringRequest sr = new StringRequest(Request.Method.GET, URL1, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                pd.dismiss();
-                //Toast.makeText(SplashFile.this, response, Toast.LENGTH_SHORT).show();
-                try {
-                    Gson g = new Gson();
-                    JSONObject jo1 = new JSONObject(response);
-                    JSONObject jo2 = jo1.getJSONObject("message");
-                    JSONObject jo3 = jo2.getJSONObject("body");
-                    JSONArray ja1 = jo3.getJSONArray("track_list");
-                    for (int i = 0; i < ja1.length(); i++) {
-                        JSONObject joo = ja1.getJSONObject(i);
-                        JSONObject joo1 = joo.getJSONObject("track");
-                        Track tc = g.fromJson(joo1.toString(), Track.class);
-                        data.add(tc);
-                    }
-                    adapter = new SongDataAdapter(data);
-                    recyclerView.setAdapter(adapter);
-
-                    adapter.setListener(SongFragment.this);
-                    Toast.makeText(getContext(), "CULprit is CONTEXT", Toast.LENGTH_LONG).show();
-                    /*Intent in = new Intent(SplashFile.this, MainActivity.class);
-                    in.putExtra("listtracks", );
-                    //Toast.makeText(SplashFile.this, ""+listTrack.get(0), Toast.LENGTH_SHORT).show();
-                    startActivity(in);*/
-
-                } catch (Exception e) {
-                    Toast.makeText(getContext(), "Deep" + e, Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pd.dismiss();
-                Toast.makeText(getContext(), "" + error, Toast.LENGTH_SHORT).show();
-            }
-        });
-        Volley.newRequestQueue(getContext()).add(sr);
-    }
-
-    @Override
-    public void onItemClick(final int position) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setMessage("Choose what u want to do ?");
-        dialog.setTitle("Welcome user!");
-        dialog.setNeutralButton("See Details", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent i  =new Intent(getContext(), SeeSongDetailsActivity.class);
-                //WRITE CODE FOR PASSING THE DATA OF PARTICULAR SONG TO THE ACTIVITY SONGDETAIL
-                i.putExtra("track",data.get(position));
-                startActivity(i);
-            }
-        });
-        dialog.setPositiveButton("Save As Favourite", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent i =new Intent(getContext(), SetFavouriteSongActivity.class);
-                //WRITE CODE FOR PASSING THE DATA OF PARTICULAR SONG TO THE ACTIVITY SONGDETAIL
-
-
-
-
-                //WHY THIS IS NOT WORKING
-                i.putExtra("track",data.get(position));
-                startActivity(i);
-            }
-        });
-        dialog.show();
-    }
-}
+    }*/

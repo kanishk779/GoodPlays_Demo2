@@ -1,5 +1,6 @@
 package com.example.android.goodplays_app;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -57,14 +58,12 @@ public class MainActivity extends AppCompatActivity {
         }
         catch(Exception e)
         {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "IN MainActivity"+e.toString(), Toast.LENGTH_LONG).show();
         }
         bSong = new Bundle();
         bSong.putSerializable("listtracks",list);
         bArtist = new Bundle();
         bArtist.putSerializable("listartist",ArtistList);
-        Toast.makeText(this, ""+ArtistList, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, ""+list, Toast.LENGTH_SHORT).show();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -75,17 +74,17 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout =  findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent in = new Intent(MainActivity.this,SearchActivity.class);
+                startActivity(in);
             }
         });
 
@@ -117,38 +116,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-//    public static class PlaceholderFragment extends Fragment {
-//        /**
-//         * The fragment argument representing the section number for this
-//         * fragment.
-//         */
-//        private static final String ARG_SECTION_NUMBER = "section_number";
-//
-//        public PlaceholderFragment() {
-//        }
-//
-//        /**
-//         * Returns a new instance of this fragment for the given section
-//         * number.
-//         */
-//        public static PlaceholderFragment newInstance(int sectionNumber) {
-//            PlaceholderFragment fragment = new PlaceholderFragment();
-//            Bundle args = new Bundle();
-//            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-//            fragment.setArguments(args);
-//            return fragment;
-//        }
-//
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                                 Bundle savedInstanceState) {
-//            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-//            return rootView;
-//        }
-//    }
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.

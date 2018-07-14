@@ -21,11 +21,11 @@ public class SeeFavouriteSongActivity extends AppCompatActivity {
         setContentView(R.layout.favourite_song_saved);
         Intent i = getIntent();
         try{
-            track = (Track1) i.getExtras().getSerializable("favouriteSong");
+            track = (Track1) i.getExtras().getSerializable("track");
         }
         catch(Exception e)
         {
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"IN SeeFavouriteSong" +e.toString(), Toast.LENGTH_SHORT).show();
         }
         initViews();
         setData();
@@ -34,7 +34,7 @@ public class SeeFavouriteSongActivity extends AppCompatActivity {
     private void setData() {
         title.setText(track.getTrackName());
         artist.setText(track.getArtistName());
-        genre.setText(track.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().getMusicGenreName());
+        //genre.setText(track.getPrimaryGenres().getMusicGenreList().get(0).getMusicGenre().getMusicGenreName());
         album.setText(track.getAlbumName());
         yearOfRelease.setText(track.getFirstReleaseDate());
         rating.setText("" + track.getStars());
@@ -43,7 +43,7 @@ public class SeeFavouriteSongActivity extends AppCompatActivity {
     private void initViews() {
         title = findViewById(R.id.songtitleSaved);
         artist = findViewById(R.id.songartistSaved);
-        genre = findViewById(R.id.genreSaved);
+        //genre = findViewById(R.id.genreSaved);
         album = findViewById(R.id.albumSaved);
         yearOfRelease = findViewById(R.id.year_of_releaseSaved);
         rating = findViewById(R.id.ratingSaved);

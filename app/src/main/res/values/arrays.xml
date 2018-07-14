@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="countries_label">
+        <item>india</item>
+        <item>pakistan</item>
+        <item>america</item>
+        <item>france</item>
+        <item>italy</item>
+        <item>united kingdom</item>
+    </string-array>
+    <string-array name="countries_values">
+        <item>in</item>
+        <item>pk</item>
+        <item>us</item>
+        <item>fr</item>
+        <item>it</item>
+        <item>uk</item>
+    </string-array>
+    <string-array name="sortBy">
+        <item>asc</item>
+        <item>desc</item>
+    </string-array>
+</resources>

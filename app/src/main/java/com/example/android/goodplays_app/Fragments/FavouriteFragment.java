@@ -1,5 +1,7 @@
 package com.example.android.goodplays_app.Fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.goodplays_app.Adapters.FavouriteDataAdapter;
 import com.example.android.goodplays_app.Adapters.SongDataAdapter;
@@ -23,6 +26,8 @@ import com.example.android.goodplays_app.ModelClasses.Track1;
 import com.example.android.goodplays_app.R;
 import com.example.android.goodplays_app.RequestInterfaceRetrofit;
 import com.example.android.goodplays_app.SeeFavouriteSongActivity;
+import com.example.android.goodplays_app.SeeSongDetailsActivity;
+import com.example.android.goodplays_app.SetFavouriteSongActivity;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -70,17 +75,39 @@ public class FavouriteFragment extends Fragment implements FavouriteDataAdapter.
         }
         adapter = new FavouriteDataAdapter(data);
         recyclerView.setAdapter(adapter);
+        adapter.setListener(this);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onItemClick2(View view) {
-        Intent i = new Intent(getContext(), SeeFavouriteSongActivity.class);
-        //SEND THE DATA TO THE SONG SAVED BY USER AS FAVOURITE FROM DATABASE
-        TextView songTitle = view.findViewById(R.id.favourite_song_title);
-        db.openRead();
-        Track1 track = db.read(songTitle.getText().toString().trim());
-        db.closeRead();
-        i.putExtra("favouriteSong",track);
-        startActivity(i);
+    public void onItemClick2(final int position) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setMessage("Choose what u want to do ?");
+        dialog.setTitle("Welcome user!");
+        dialog.setNeutralButton("See Details", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i = new Intent(getContext(), SeeFavouriteSongActivity.class);
+                Track1 track = data.get(position);
+                i.putExtra("track",track);
+                startActivity(i);
+            }
+        });
+        dialog.setPositiveButton("Delete From Favourite", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                long i=0;
+                Track1 track = data.get(position);
+                db = new FavouriteSongs(getContext());
+                db.openWrite();
+                i = db.delete(track.getTrackName());
+                db.closeWrite();
+                if(i>0)
+                    Toast.makeText(getContext(), "Successfully Deleted", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getContext(), "Could Not Be Deleted", Toast.LENGTH_SHORT).show();
+            }
+        });
+        dialog.show();
     }
 }

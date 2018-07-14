@@ -23,14 +23,14 @@
         android:text="SongArtist"
         android:textSize="24sp"
         android:gravity="center"/>
-    <TextView
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/genreSaved"
         android:layout_weight="1"
         android:text="Genre"
         android:textSize="24sp"
-        android:gravity="center"/>
+        android:gravity="center"/>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

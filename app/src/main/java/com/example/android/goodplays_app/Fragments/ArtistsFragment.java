@@ -15,6 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.android.goodplays_app.Adapters.ArtistDataAdapter;
 import com.example.android.goodplays_app.Adapters.SongDataAdapter;
 import com.example.android.goodplays_app.ModelClasses.ArtistModelClasses.Artist;
@@ -28,7 +32,11 @@ import com.example.android.goodplays_app.RequestInterfaceRetrofit;
 import com.example.android.goodplays_app.SeeArtistDetailsActivity;
 import com.example.android.goodplays_app.SeeSongDetailsActivity;
 import com.example.android.goodplays_app.SetFavouriteSongActivity;
+import com.example.android.goodplays_app.SplashFile;
 import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +68,7 @@ public class ArtistsFragment extends Fragment implements ArtistDataAdapter.MyInt
         }
         catch(Exception e)
         {
-            Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "IN Artist Fragment" + e.toString(), Toast.LENGTH_SHORT).show();
         }
         Log.e("IN","ArtisFragmentOnCREATE");
         return v;
@@ -77,7 +85,26 @@ public class ArtistsFragment extends Fragment implements ArtistDataAdapter.MyInt
         adapter.setListener(ArtistsFragment.this);
         //loadJSON();
     }
-    private void loadJSON(){
+
+    @Override
+    public void onItemClick1(final int position) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setMessage("Choose what u want to do ?");
+        dialog.setTitle("Welcome user!");
+        dialog.setNeutralButton("See Details", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i  =new Intent(getContext(), SeeArtistDetailsActivity.class);
+                //WRITE CODE FOR PASSING THE DATA OF PARTICULAR Artist TO THE ACTIVITY ARRTISTDETAIL
+                i.putExtra("artist",data.get(position));
+                startActivity(i);
+            }
+        });
+        dialog.show();
+    }
+
+}
+    /*private void loadJSON(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -107,21 +134,39 @@ public class ArtistsFragment extends Fragment implements ArtistDataAdapter.MyInt
                 Log.d("Error",t.getMessage());
             }
         });
-    }
-    @Override
-    public void onItemClick1(final int position) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setMessage("Choose what u want to do ?");
-        dialog.setTitle("Welcome user!");
-        dialog.setNeutralButton("See Details", new DialogInterface.OnClickListener() {
+    }*/
+
+
+
+    /*private void setDataFromServer1() {
+        //pd.show();
+        StringRequest sr = new StringRequest(Request.Method.GET, URL2, new com.android.volley.Response.Listener<String>() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent i  =new Intent(getContext(), SeeArtistDetailsActivity.class);
-                //WRITE CODE FOR PASSING THE DATA OF PARTICULAR Artist TO THE ACTIVITY ARRTISTDETAIL
-                i.putExtra("artist",data.get(position));
-                startActivity(i);
+            public void onResponse(String response) {
+                try {
+                    Gson g = new Gson();
+                    JSONObject jo1 = new JSONObject(response);
+                    JSONObject jo2 = jo1.getJSONObject("message");
+                    JSONObject jo3 = jo2.getJSONObject("body");
+                    JSONArray ja1 = jo3.getJSONArray("artist_list");
+                    for (int i = 0; i < ja1.length(); i++) {
+                        JSONObject joo = ja1.getJSONObject(i);
+                        JSONObject joo1 = joo.getJSONObject("artist");
+                        Artist tc = g.fromJson(joo1.toString(), Artist.class);
+                        //listArtist.add(tc);
+                        data.add(tc);
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Deep" + e, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //pd.dismiss();
+                Toast.makeText(getContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
-        dialog.show();
-    }
-}
+        Volley.newRequestQueue(getContext()).add(sr);
+
+    }*/

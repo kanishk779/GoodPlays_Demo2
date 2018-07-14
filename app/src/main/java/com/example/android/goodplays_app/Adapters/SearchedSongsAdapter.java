@@ -14,44 +14,42 @@ import com.example.android.goodplays_app.R;
 import java.util.ArrayList;
 
 /**
- * Created by hp on 26-06-2018.
+ * Created by hp on 01-07-2018.
  */
 
-public class SongDataAdapter extends RecyclerView.Adapter<SongDataAdapter.ViewHolder> {
-    private ArrayList<Track> songList;
-    private MyInterface mListener;
+public class SearchedSongsAdapter extends RecyclerView.Adapter<SearchedSongsAdapter.ViewHolder> {
+    ArrayList<Track> list;
+
+    private SearchedSongsAdapter.MyInterface mListener;
     public interface MyInterface{
         public void onItemClick(int position);
     }
-    public void setListener(MyInterface Listener){
+    public void setListener1(SearchedSongsAdapter.MyInterface Listener){
         mListener = Listener;
     }
-    public SongDataAdapter(ArrayList<Track> list)
-    {
-        songList = list;
+    public SearchedSongsAdapter(ArrayList<Track> list){
+        this.list = list;
     }
     @NonNull
     @Override
-    public SongDataAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchedSongsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_song_main, parent, false);
-
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SongDataAdapter.ViewHolder holder, int position) {
-        Track song = songList.get(position);
+    public void onBindViewHolder(@NonNull SearchedSongsAdapter.ViewHolder holder, int position) {
+        Track song = list.get(position);
         holder.Artist.setText(song.getArtistName());
         holder.Title.setText(song.getTrackName());
-       // song.get                              ASK HOW TO SET IMAGE???
     }
 
     @Override
     public int getItemCount() {
-        if(songList==null)
+        if(list==null)
             return 0;
-        return songList.size();
+        return list.size();
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView Title,Artist;

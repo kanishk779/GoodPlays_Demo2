@@ -1,9 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.goodplays_app.SearchActivity">
-
-</android.support.constraint.ConstraintLayout>
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search Your Favourite Song"
+        android:textSize="30sp"
+        android:textColor="#000"
+        android:gravity="center_horizontal|center_vertical"
+        android:padding="10dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter Song Name"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:layout_margin="10dp"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/songQuery"
+        android:hint="Song"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_marginBottom="15dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter number of songs"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:layout_margin="10dp"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/noOfSongs"
+        android:hint="Number of Songs"
+        android:gravity="center_horizontal|center_vertical"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/sortBy"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:id="@+id/sortBySpinner"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="See result"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/songQuerybtn"
+        />
+</LinearLayout>
